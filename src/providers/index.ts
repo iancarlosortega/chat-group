@@ -1,2 +1,2 @@
-export { AuthProvider } from './AuthProvider';
-export { Providers } from './Providers';
+export { Providers } from './providers';
+export { SessionProvider } from './session-provider';

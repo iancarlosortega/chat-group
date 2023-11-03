@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@tremor/react": "^3.10.0",
     "axios": "^1.6.0",
     "cookies-next": "^4.0.0",

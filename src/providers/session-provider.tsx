@@ -1,10 +1,15 @@
 'use client';
 
-import { useAuthStore } from '@/stores';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores';
+import { CreateChatGroupModal } from '@/components/modals/create-chat-group.modal';
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const SessionProvider = ({
+	children,
+}: {
+	children: React.ReactNode;
+}) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const checkAuthStatus = useAuthStore(state => state.checkAuthStatus);
 	const router = useRouter();
@@ -24,5 +29,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	if (isLoading) return null;
 
-	return <>{children}</>;
+	return (
+		<>
+			<CreateChatGroupModal />
+			{children}
+		</>
+	);
 };
