@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans, Kanit } from 'next/font/google';
 import './globals.css';
+import { Providers } from '@/providers/Providers';
 
 const notoSans = Noto_Sans({
 	subsets: ['latin'],
@@ -27,7 +28,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`${notoSans.className} ${kanit.variable}`}>
-				{children}
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

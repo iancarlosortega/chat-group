@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { Button } from '@tremor/react';
 import { TextInput } from '@tremor/react';
-import { useForm } from 'react-hook-form';
+import { useAuthStore } from '@/stores';
 
 interface IFormValues {
 	email: string;
@@ -10,19 +12,25 @@ interface IFormValues {
 }
 
 export const LoginForm = () => {
+	const loginUser = useAuthStore(state => state.loginUser);
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<IFormValues>();
+	const router = useRouter();
 
-	const onSubmit = ({ email, password }: IFormValues) => {
-		console.log(email, password);
-		// TODO: Call an API and login user
+	const onSubmit = async ({ email, password }: IFormValues) => {
+		try {
+			await loginUser(email, password);
+			router.push('/');
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
-		<form className='my-2' onSubmit={handleSubmit(onSubmit)}>
+		<form autoComplete='off' className='my-2' onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
 				className='mt-6'
 				placeholder='Email'

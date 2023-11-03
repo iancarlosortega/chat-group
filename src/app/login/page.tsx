@@ -15,12 +15,12 @@ export default function LoginPage() {
 				Sign In
 			</h3>
 			<main className='z-20 rounded-2xl p-6 max-w-[90%] w-[980px] relative drop-shadow-md'>
-				<div className='z-20 relative max-h-[90%] flex flex-col justify-between'>
+				<div className='z-20 relative max-h-[90%] h-[550px] flex flex-col justify-between'>
 					<header className='flex justify-between items-center'>
 						<h1 className='text-white text-xl font-bold'>Chat Group</h1>
 						<MessageIcon className='text-gray-500' />
 					</header>
-					<article className='shadow-2xl rounded-2xl bg-white w-[400px] h-[450px] max-w-full mx-auto px-6 py-4'>
+					<article className='shadow-2xl rounded-2xl bg-white w-[400px] max-w-full mx-auto px-6 py-4'>
 						<header className='flex flex-col gap-2 items-center my-4'>
 							<h2 className='text-lg text-gray-500 uppercase'>Sign In</h2>
 							<div className='w-8 h-1 bg-primary'></div>
