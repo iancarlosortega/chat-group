@@ -14,9 +14,12 @@ const config: Config = {
 			},
 			colors: {
 				primary: '#fd4350',
+				'secondary-lt': '#3C393F',
 				secondary: '#252329',
 				'secondary-dk': '#120F13',
+				'secondary-dks': '#0B090C',
 				tertiary: '#f6f6f6',
+				'tertiary-dk': '#828282',
 			},
 		},
 	},
