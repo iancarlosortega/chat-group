@@ -1,12 +1,13 @@
 'use client';
 
 import { TextInput } from '@tremor/react';
-import { ArrowDownIcon, PlusIcon, SearchIcon } from '../icons/icons';
-import { ProfilePhoto } from './profile-photo';
 import { useAuthStore, useUIStore } from '@/stores';
+import { PlusIcon, SearchIcon } from '../icons/icons';
+import { ProfilePhoto } from './profile-photo';
+import { ChatsList } from '../chats/chats-list';
+import { Dropdown } from './dropdown';
 import { classNames } from '@/utils';
 import { Chat } from '@/interfaces';
-import { ChatsList } from '../chats/chats-list';
 
 interface Props {
 	chats: Chat[];
@@ -43,12 +44,10 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 			</div>
 			<footer className='bg-secondary-dks flex items-center justify-between h-[100px] p-4'>
 				<div className='flex items-center gap-3'>
-					<ProfilePhoto user={user!} />
+					{user && <ProfilePhoto user={user} />}
 					<p className='font-bold text-tertiary-dk'>{user?.fullName}</p>
 				</div>
-				<button>
-					<ArrowDownIcon className='text-gray-400 stroke-2' />
-				</button>
+				<Dropdown />
 			</footer>
 		</aside>
 	);

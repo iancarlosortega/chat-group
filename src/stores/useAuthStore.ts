@@ -1,4 +1,4 @@
-import { setCookie } from 'cookies-next';
+import { setCookie, deleteCookie } from 'cookies-next';
 import { create, type StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { AuthService } from '@/services';
@@ -17,6 +17,7 @@ interface Actions {
 		password: string
 	) => Promise<void>;
 	checkAuthStatus: () => Promise<void>;
+	logoutUser: () => void;
 }
 
 const storeApi: StateCreator<State & Actions> = set => ({
@@ -55,6 +56,10 @@ const storeApi: StateCreator<State & Actions> = set => ({
 			set({ user: undefined, isAuthenticated: false });
 			throw new Error('Token is not valid');
 		}
+	},
+	logoutUser: () => {
+		deleteCookie('token');
+		set({ user: undefined, isAuthenticated: false });
 	},
 });
 

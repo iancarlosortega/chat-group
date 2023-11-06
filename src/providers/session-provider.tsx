@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores';
 import { CreateChatGroupModal } from '@/components/modals/create-chat-group.modal';
+import { ConfirmLogoutModal } from '@/components/modals/confirm-logout.modal';
 
 export const SessionProvider = ({
 	children,
@@ -32,6 +33,7 @@ export const SessionProvider = ({
 	return (
 		<>
 			<CreateChatGroupModal />
+			<ConfirmLogoutModal />
 			{children}
 		</>
 	);
