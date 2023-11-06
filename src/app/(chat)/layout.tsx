@@ -13,7 +13,7 @@ export default async function ChatLayout({
 		<SessionProvider>
 			<div className='flex'>
 				<Sidebar chats={chats} />
-				<main className='flex-1 bg-red-400'>{children}</main>
+				<main className='flex-1 bg-secondary'>{children}</main>
 			</div>
 		</SessionProvider>
 	);

@@ -22,7 +22,7 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 	return (
 		<aside className='min-h-screen w-[400px] bg-secondary-dk flex flex-col justify-between'>
 			<div className='flex-1 text-white'>
-				<header className='shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] p-4 flex items-center justify-between'>
+				<header className='shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] p-4 flex items-center justify-between h-[65px]'>
 					<p className='font-bold text-lg'>Channels</p>
 					<button
 						className='bg-secondary p-2 rounded-lg'
