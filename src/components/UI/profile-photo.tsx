@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { User } from '@/interfaces';
+import { InitialsName } from './initials-name';
 
 export const ProfilePhoto = ({ user }: { user: User }) => {
 	return (
@@ -15,10 +16,7 @@ export const ProfilePhoto = ({ user }: { user: User }) => {
 					/>
 				</div>
 			) : (
-				<div className='flex justify-center items-center h-10 w-10 rounded-lg bg-gray-500 dark:bg-secondary text-white font-medium select-none'>
-					<span>{user.fullName.split(' ')[0].charAt(0)}</span>
-					<span>{user.fullName.split(' ')[1].charAt(0)}</span>
-				</div>
+				<InitialsName name={user.fullName} />
 			)}
 		</>
 	);

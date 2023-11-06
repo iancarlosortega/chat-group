@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Dialog, Transition } from '@headlessui/react';
+import { ChatsService } from '@/services';
 import { useUIStore } from '@/stores';
 import { classNames } from '@/utils';
 
@@ -18,12 +20,21 @@ export const CreateChatGroupModal = () => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<IFormValues>();
+	const router = useRouter();
 
-	const onSubmit = ({ name, description }: IFormValues) => {
-		console.log({ name, description });
-		// TODO: Call API to create new chat
+	const onSubmit = async (newChat: IFormValues) => {
+		try {
+			const chat = await ChatsService.createChat(newChat);
+			setIsCreateChatModalOpen(false);
+			reset();
+			router.refresh();
+			router.push(chat.id);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

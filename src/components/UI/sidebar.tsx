@@ -5,8 +5,14 @@ import { ArrowDownIcon, PlusIcon, SearchIcon } from '../icons/icons';
 import { ProfilePhoto } from './profile-photo';
 import { useAuthStore, useUIStore } from '@/stores';
 import { classNames } from '@/utils';
+import { Chat } from '@/interfaces';
+import { ChatsList } from '../chats/chats-list';
 
-export const Sidebar = () => {
+interface Props {
+	chats: Chat[];
+}
+
+export const Sidebar: React.FC<Props> = ({ chats }) => {
 	const user = useAuthStore(state => state.user);
 	const setIsCreateChatModalOpen = useUIStore(
 		state => state.setIsCreateChatModalOpen
@@ -32,7 +38,7 @@ export const Sidebar = () => {
 							'bg-secondary-lt rounded-lg outline-none border-none p-2'
 						)}
 					/>
-					{/* TODO: Channels List */}
+					<ChatsList chats={chats} />
 				</div>
 			</div>
 			<footer className='bg-secondary-dks flex items-center justify-between h-[100px] p-4'>
