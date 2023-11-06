@@ -26,6 +26,28 @@ export class AuthService {
 		}
 	};
 
+	static register = async (
+		fullName: string,
+		email: string,
+		password: string
+	): Promise<{ user: User; token: string }> => {
+		try {
+			const { data } = await chatGroupApi.post('/auth/register', {
+				fullName,
+				email,
+				password,
+			});
+			return data;
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				toast.error('Email already in use');
+				throw new Error(error.response?.data.messsage);
+			}
+			console.log(error);
+			throw new Error('Unable to register');
+		}
+	};
+
 	static checkAuthStatus = async (): Promise<{ user: User; token: string }> => {
 		try {
 			const token = getCookie('token');

@@ -11,6 +11,11 @@ interface State {
 
 interface Actions {
 	loginUser: (email: string, password: string) => Promise<void>;
+	registerUser: (
+		fullName: string,
+		email: string,
+		password: string
+	) => Promise<void>;
 	checkAuthStatus: () => Promise<void>;
 }
 
@@ -25,6 +30,20 @@ const storeApi: StateCreator<State & Actions> = set => ({
 		} catch (error) {
 			set({ user: undefined, isAuthenticated: false });
 			throw new Error('Not valid credentials');
+		}
+	},
+	registerUser: async (fullName, email, password) => {
+		try {
+			const { token, user } = await AuthService.register(
+				fullName,
+				email,
+				password
+			);
+			set({ user, isAuthenticated: true });
+			setCookie('token', token);
+		} catch (error) {
+			set({ user: undefined, isAuthenticated: false });
+			throw new Error('Problem with credentials');
 		}
 	},
 	checkAuthStatus: async () => {

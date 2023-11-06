@@ -2,8 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { Button } from '@tremor/react';
-import { TextInput } from '@tremor/react';
+import { Button, TextInput } from '@tremor/react';
 import { useAuthStore } from '@/stores';
 
 interface IFormValues {
