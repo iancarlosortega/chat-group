@@ -24,6 +24,7 @@ export const MessageInput: React.FC<Props> = ({ chatId }) => {
 				content: inputValue,
 				chatId,
 			});
+			setInputValue('');
 		} catch (error) {
 			console.log(error);
 		}

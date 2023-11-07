@@ -9,6 +9,6 @@ export interface Message {
 	id: string;
 	content: string;
 	user: User;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 }

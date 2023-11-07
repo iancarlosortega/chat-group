@@ -6,7 +6,7 @@ import { CreateMessage, Message } from '@/interfaces';
 export class MessagesService {
 	static getMessagesByChatId = async (chatId: string): Promise<Message[]> => {
 		try {
-			const { data } = await chatGroupApi.get(`/messages/${chatId}`);
+			const { data } = await chatGroupApi.get<Message[]>(`/messages/${chatId}`);
 			return data;
 		} catch (error) {
 			return [];
