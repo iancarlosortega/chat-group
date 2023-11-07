@@ -1,14 +1,22 @@
 'use client';
 
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { SendMessageIcon } from '../icons/icons';
 import { MessagesService } from '@/services';
+import { Message, User } from '@/interfaces';
 
 interface Props {
 	chatId: string;
+	user: User;
+	handleNewMessage: (messsage: Message) => void;
 }
 
-export const MessageInput: React.FC<Props> = ({ chatId }) => {
+export const MessageInput: React.FC<Props> = ({
+	chatId,
+	user,
+	handleNewMessage,
+}) => {
 	const [inputValue, setInputValue] = useState('');
 
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -19,6 +27,14 @@ export const MessageInput: React.FC<Props> = ({ chatId }) => {
 
 	const onNewMessage = async () => {
 		if (inputValue.trim().length === 0) return;
+		const newMessage: Message = {
+			id: uuidv4(),
+			content: inputValue,
+			user,
+			createdAt: new Date() as any,
+			updatedAt: new Date() as any,
+		};
+		handleNewMessage(newMessage); // Optimistic update
 		try {
 			await MessagesService.createMessage({
 				content: inputValue,

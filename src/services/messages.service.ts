@@ -4,10 +4,26 @@ import { chatGroupApi } from '@/api/chatGroupApi';
 import { CreateMessage, Message } from '@/interfaces';
 
 export class MessagesService {
-	static getMessagesByChatId = async (chatId: string): Promise<Message[]> => {
+	static getMessagesByChatId = async ({
+		chatId,
+		limit = 10,
+		offset = 0,
+	}: {
+		chatId: string;
+		limit?: number;
+		offset?: number;
+	}): Promise<Message[]> => {
 		try {
-			const { data } = await chatGroupApi.get<Message[]>(`/messages/${chatId}`);
-			return data;
+			const { data } = await chatGroupApi.get<{
+				result: Message[];
+				totalItems: number;
+			}>(`/messages/${chatId}`, {
+				params: {
+					limit,
+					offset,
+				},
+			});
+			return data.result;
 		} catch (error) {
 			return [];
 		}
