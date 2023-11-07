@@ -20,7 +20,7 @@ export default async function ChatPage({
 	return (
 		<>
 			<ChatHeader name={chat.name} />
-			<section className='h-[calc(100vh-165px)] p-4 lg:px-16 overflow-y-auto'>
+			<section className='messages-container h-[calc(100vh-165px)] p-4 lg:px-16 overflow-y-auto'>
 				<MessagesList messages={messages} />
 			</section>
 			<div className='container mx-auto h-[100px] flex items-center p-4 lg:px-16'>
