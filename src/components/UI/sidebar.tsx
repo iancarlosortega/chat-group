@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect } from 'react';
 import { TextInput } from '@tremor/react';
-import { useAuthStore, useUIStore } from '@/stores';
+import { useAuthStore, useChatStore, useUIStore } from '@/stores';
 import { PlusIcon, SearchIcon } from '../icons/icons';
 import { ProfilePhoto } from './profile-photo';
 import { ChatsList } from '../chats/chats-list';
@@ -15,9 +16,14 @@ interface Props {
 
 export const Sidebar: React.FC<Props> = ({ chats }) => {
 	const user = useAuthStore(state => state.user);
+	const setChats = useChatStore(state => state.setChats);
 	const setIsCreateChatModalOpen = useUIStore(
 		state => state.setIsCreateChatModalOpen
 	);
+
+	useEffect(() => {
+		setChats(chats);
+	}, [chats, setChats]);
 
 	return (
 		<aside className='min-h-screen w-[400px] bg-secondary-dk flex flex-col justify-between'>
@@ -30,7 +36,7 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 						<PlusIcon className='stroke-2' />
 					</button>
 				</header>
-				<div className='p-4'>
+				<div className='p-4 h-[calc(100vh-165px)] flex flex-col'>
 					<TextInput
 						icon={SearchIcon}
 						type='text'
@@ -39,7 +45,7 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 							'bg-secondary-lt rounded-lg outline-none border-none p-2'
 						)}
 					/>
-					<ChatsList chats={chats} />
+					<ChatsList />
 				</div>
 			</div>
 			<footer className='bg-secondary-dks flex items-center justify-between h-[100px] p-4'>

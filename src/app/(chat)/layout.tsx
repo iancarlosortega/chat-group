@@ -7,7 +7,7 @@ export default async function ChatLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const chats = await ChatsService.getAllChats();
+	const { result: chats } = await ChatsService.getAllChats();
 
 	return (
 		<SessionProvider>

@@ -4,16 +4,29 @@ import { chatGroupApi } from '@/api/chatGroupApi';
 import { Chat, CreateChat } from '@/interfaces';
 
 export class ChatsService {
-	static getAllChats = async () => {
+	static getAllChats = async (
+		limit = 10,
+		offset = 0
+	): Promise<{
+		result: Chat[];
+		totalItems: number;
+	}> => {
 		try {
-			const { data } = await chatGroupApi.get('/chats');
+			const { data } = await chatGroupApi.get<{
+				result: Chat[];
+				totalItems: number;
+			}>('/chats', {
+				params: {
+					limit,
+					offset,
+				},
+			});
 			return data;
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				throw new Error(error.response?.data.messsage);
-			}
-			console.log(error);
-			throw new Error('Unable to retrieve all chats');
+			return {
+				totalItems: 0,
+				result: [],
+			};
 		}
 	};
 

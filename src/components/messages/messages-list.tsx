@@ -46,7 +46,7 @@ export const MessagesList: React.FC<Props> = ({
 
 	return (
 		<div className='h-[calc(100vh-165px)]'>
-			<div className='h-full overflow-y-auto flex flex-col-reverse items-end messages-container p-4 lg:px-16 relative'>
+			<div className='h-full overflow-y-auto flex flex-col-reverse items-end scroll-container p-4 lg:px-16 relative'>
 				{messages.map(message => (
 					<div
 						key={message.id}

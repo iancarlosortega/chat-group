@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Dialog, Transition } from '@headlessui/react';
 import { ChatsService } from '@/services';
-import { useUIStore } from '@/stores';
+import { useChatStore, useUIStore } from '@/stores';
 import { classNames } from '@/utils';
 
 interface IFormValues {
@@ -12,6 +12,10 @@ interface IFormValues {
 }
 
 export const CreateChatGroupModal = () => {
+	const addChat = useChatStore(state => state.addChat);
+	const incrementNewChatsCounter = useChatStore(
+		state => state.incrementNewChatsCounter
+	);
 	const isOpen = useUIStore(state => state.isCreateChatModalOpen);
 	const setIsCreateChatModalOpen = useUIStore(
 		state => state.setIsCreateChatModalOpen
@@ -30,7 +34,8 @@ export const CreateChatGroupModal = () => {
 			const chat = await ChatsService.createChat(newChat);
 			setIsCreateChatModalOpen(false);
 			reset();
-			router.refresh();
+			addChat(chat);
+			incrementNewChatsCounter(1);
 			router.push(chat.id);
 		} catch (error) {
 			console.log(error);
