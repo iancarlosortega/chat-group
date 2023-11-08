@@ -20,11 +20,7 @@ export default async function ChatPage({
 	return (
 		<>
 			<ChatHeader name={chat.name} />
-			<MessagesSection
-				chatId={chat.id}
-				messages={response.result}
-				totalMessages={response.totalItems}
-			/>
+			<MessagesSection chatId={chat.id} messages={response.result} />
 		</>
 	);
 }

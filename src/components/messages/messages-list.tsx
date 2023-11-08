@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { ProfilePhoto } from '../UI/profile-photo';
+import { useEffect, useRef, useState } from 'react';
 import { MessagesService } from '@/services';
+import { ProfilePhoto } from '../UI/profile-photo';
+import { InfiniteScroll } from '../UI/infinite-scroll';
 import { formatDate } from '@/utils';
 import { Message, User } from '@/interfaces';
-import { LoadingSpinner } from '../UI/loading-spinner';
 
 interface Props {
-	totalMessages: number;
 	messages: Message[];
 	user: User;
 	chatId: string;
@@ -20,52 +19,25 @@ export const MessagesList: React.FC<Props> = ({
 	messages,
 	user,
 	chatId,
-	totalMessages,
 	newMessagesCounter,
 	handleNewMessages,
 }) => {
-	const [hasMoreMessages, setHasMoreMessages] = useState(
-		messages.length < totalMessages
-	);
 	const [page, setPage] = useState(1);
 	const bottomRef = useRef<HTMLDivElement>(null);
-	const scrollRef = useRef(null);
 
-	const fetchMoreMessages = useCallback(async () => {
+	const fetchMoreMessages = async () => {
 		const limit = 10;
 		const response = await MessagesService.getMessagesByChatId({
 			chatId,
 			limit,
 			offset: page * limit + newMessagesCounter,
 		});
-		if (response.result.length === 0) return setHasMoreMessages(false);
 
 		handleNewMessages(response.result);
 		setPage(prev => prev + 1);
-	}, [chatId, page, handleNewMessages, newMessagesCounter]);
 
-	const onIntersection = useCallback(
-		(entries: IntersectionObserverEntry[]) => {
-			const firstEntry = entries[0];
-			if (firstEntry.isIntersecting && hasMoreMessages) {
-				fetchMoreMessages();
-			}
-		},
-		[hasMoreMessages, fetchMoreMessages]
-	);
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(onIntersection);
-		if (observer && scrollRef.current) {
-			observer.observe(scrollRef.current);
-		}
-
-		return () => {
-			if (observer) {
-				observer.disconnect();
-			}
-		};
-	}, [onIntersection]);
+		return response.result.length > 0;
+	};
 
 	useEffect(() => {
 		if (bottomRef.current)
@@ -109,11 +81,7 @@ export const MessagesList: React.FC<Props> = ({
 						</div>
 					</div>
 				))}
-				{hasMoreMessages && (
-					<div className='w-full flex justify-center' ref={scrollRef}>
-						<LoadingSpinner />
-					</div>
-				)}
+				<InfiniteScroll fetchData={fetchMoreMessages} />
 			</div>
 			<div ref={bottomRef}></div>
 		</div>

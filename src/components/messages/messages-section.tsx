@@ -7,12 +7,11 @@ import { MessageInput } from './message-input';
 import { Message } from '@/interfaces';
 
 interface Props {
-	totalMessages: number;
 	messages: Message[];
 	chatId: string;
 }
 
-export const MessagesSection = ({ chatId, messages, totalMessages }: Props) => {
+export const MessagesSection = ({ chatId, messages }: Props) => {
 	const [newMessages, setNewMessages] = useState(messages);
 	const [newMessagesCounter, setNewMessagesCounter] = useState(0);
 	const user = useAuthStore(state => state.user);
@@ -33,7 +32,6 @@ export const MessagesSection = ({ chatId, messages, totalMessages }: Props) => {
 					messages={newMessages}
 					user={user!}
 					chatId={chatId}
-					totalMessages={totalMessages}
 					newMessagesCounter={newMessagesCounter}
 					handleNewMessages={onNewMessages}
 				/>
