@@ -35,12 +35,12 @@ export const MessageInput: React.FC<Props> = ({
 			updatedAt: new Date() as any,
 		};
 		handleNewMessage(newMessage); // Optimistic update
+		setInputValue('');
 		try {
 			await MessagesService.createMessage({
 				content: inputValue,
 				chatId,
 			});
-			setInputValue('');
 		} catch (error) {
 			console.log(error);
 		}

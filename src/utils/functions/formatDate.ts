@@ -1,24 +1,16 @@
 import moment from 'moment';
 
 export function formatDate(date: string) {
-	const today = moment();
 	const dateTime = moment(date);
+	const today = moment();
+	const yesterday = moment().subtract(1, 'days').startOf('day');
 
-	const differenceDays = today.diff(dateTime, 'days');
-	let difference = '';
+	let difference = dateTime.fromNow();
 
-	switch (differenceDays) {
-		case 0:
-			difference = 'today';
-			break;
-
-		case 1:
-			difference = 'yesterday';
-			break;
-
-		default:
-			difference = dateTime.fromNow();
-			break;
+	if (dateTime.isSame(today, 'd')) {
+		difference = 'today';
+	} else if (dateTime.isSame(yesterday, 'd')) {
+		difference = 'yesterday';
 	}
 
 	return `${difference} at ${dateTime.format('h:mm:ss A')}`;

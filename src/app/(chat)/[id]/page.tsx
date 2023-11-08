@@ -10,18 +10,21 @@ export default async function ChatPage({
 }) {
 	const chat = await ChatsService.getChatById(id);
 
-	// TODO: Place not found placeholder
 	if (!chat) redirect('/');
 
 	// TODO: Group messages by day
-	const messages = await MessagesService.getMessagesByChatId({
+	const response = await MessagesService.getMessagesByChatId({
 		chatId: chat.id,
 	});
 
 	return (
 		<>
 			<ChatHeader name={chat.name} />
-			<MessagesSection chatId={chat.id} messages={messages} />
+			<MessagesSection
+				chatId={chat.id}
+				messages={response.result}
+				totalMessages={response.totalItems}
+			/>
 		</>
 	);
 }

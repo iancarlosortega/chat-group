@@ -12,7 +12,10 @@ export class MessagesService {
 		chatId: string;
 		limit?: number;
 		offset?: number;
-	}): Promise<Message[]> => {
+	}): Promise<{
+		result: Message[];
+		totalItems: number;
+	}> => {
 		try {
 			const { data } = await chatGroupApi.get<{
 				result: Message[];
@@ -23,9 +26,12 @@ export class MessagesService {
 					offset,
 				},
 			});
-			return data.result;
+			return data;
 		} catch (error) {
-			return [];
+			return {
+				totalItems: 0,
+				result: [],
+			};
 		}
 	};
 

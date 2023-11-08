@@ -1,17 +1,71 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { ProfilePhoto } from '../UI/profile-photo';
+import { MessagesService } from '@/services';
 import { formatDate } from '@/utils';
 import { Message, User } from '@/interfaces';
+import { LoadingSpinner } from '../UI/loading-spinner';
 
 interface Props {
+	totalMessages: number;
 	messages: Message[];
 	user: User;
+	chatId: string;
+	newMessagesCounter: number;
+	handleNewMessages: (messages: Message[]) => void;
 }
 
-export const MessagesList: React.FC<Props> = ({ messages, user }) => {
+export const MessagesList: React.FC<Props> = ({
+	messages,
+	user,
+	chatId,
+	totalMessages,
+	newMessagesCounter,
+	handleNewMessages,
+}) => {
+	const [hasMoreMessages, setHasMoreMessages] = useState(
+		messages.length < totalMessages
+	);
+	const [page, setPage] = useState(1);
 	const bottomRef = useRef<HTMLDivElement>(null);
+	const scrollRef = useRef(null);
+
+	const fetchMoreMessages = useCallback(async () => {
+		const limit = 10;
+		const response = await MessagesService.getMessagesByChatId({
+			chatId,
+			limit,
+			offset: page * limit + newMessagesCounter,
+		});
+		if (response.result.length === 0) return setHasMoreMessages(false);
+
+		handleNewMessages(response.result);
+		setPage(prev => prev + 1);
+	}, [chatId, page, handleNewMessages, newMessagesCounter]);
+
+	const onIntersection = useCallback(
+		(entries: IntersectionObserverEntry[]) => {
+			const firstEntry = entries[0];
+			if (firstEntry.isIntersecting && hasMoreMessages) {
+				fetchMoreMessages();
+			}
+		},
+		[hasMoreMessages, fetchMoreMessages]
+	);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(onIntersection);
+		if (observer && scrollRef.current) {
+			observer.observe(scrollRef.current);
+		}
+
+		return () => {
+			if (observer) {
+				observer.disconnect();
+			}
+		};
+	}, [onIntersection]);
 
 	useEffect(() => {
 		if (bottomRef.current)
@@ -19,8 +73,8 @@ export const MessagesList: React.FC<Props> = ({ messages, user }) => {
 	}, []);
 
 	return (
-		<>
-			<div className='messages-container h-[calc(100vh-165px)] p-4 lg:px-16 overflow-y-auto flex flex-col-reverse items-end'>
+		<div className='h-[calc(100vh-165px)]'>
+			<div className='h-full overflow-y-auto flex flex-col-reverse items-end messages-container p-4 lg:px-16 relative'>
 				{messages.map(message => (
 					<div
 						key={message.id}
@@ -55,8 +109,13 @@ export const MessagesList: React.FC<Props> = ({ messages, user }) => {
 						</div>
 					</div>
 				))}
+				{hasMoreMessages && (
+					<div className='w-full flex justify-center' ref={scrollRef}>
+						<LoadingSpinner />
+					</div>
+				)}
 			</div>
 			<div ref={bottomRef}></div>
-		</>
+		</div>
 	);
 };
