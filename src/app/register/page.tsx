@@ -1,8 +1,8 @@
 import type { Metadata } from 'next/types';
 import Link from 'next/link';
-import { Kanit } from 'next/font/google';
 import { RegisterForm } from './register-form';
 import { ArrowLeftIcon, MessageIcon } from '@/components/icons/icons';
+import { classNames } from '@/utils/functions/classNames';
 
 export const metadata: Metadata = {
 	title: 'Login | Chat Group',
@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 export default function RegisterPage() {
 	return (
 		<section className='min-h-screen h-screen w-full bg-tertiary flex items-center justify-center'>
-			<h3 className='font-kanit select-none font-bold absolute z-10 text-center top-5 left-0 w-full text-[18rem] tracking-[3rem] leading-[15rem] uppercase text-[#f7f7f7] drop-shadow-md'>
+			<h3
+				className={classNames(
+					'hidden md:block font-kanit select-none overflow-hidden font-bold uppercase text-[#f7f7f7] drop-shadow-md',
+					'absolute z-10 text-center top-10  left-0 w-full text-[12rem] tracking-[1rem] leading-[15rem]',
+					'lg:top-5 lg:text-[18rem] lg:tracking-[2rem] 2xl:tracking-[3rem]'
+				)}>
 				Sign Up
 			</h3>
 			<main className='z-20 rounded-2xl p-6 max-w-[90%] w-[980px] relative drop-shadow-md'>

@@ -26,23 +26,21 @@ export const MessagesSection = ({ chatId, messages }: Props) => {
 	};
 
 	return (
-		<>
-			<section>
-				<MessagesList
-					messages={newMessages}
-					user={user!}
-					chatId={chatId}
-					newMessagesCounter={newMessagesCounter}
-					handleNewMessages={onNewMessages}
-				/>
-			</section>
-			<div className='container mx-auto h-[100px] flex items-center p-4 lg:px-16'>
+		<section className='container mx-auto px-4 xl:px-16'>
+			<MessagesList
+				messages={newMessages}
+				user={user!}
+				chatId={chatId}
+				newMessagesCounter={newMessagesCounter}
+				handleNewMessages={onNewMessages}
+			/>
+			<div className='h-[100px] flex items-center'>
 				<MessageInput
 					chatId={chatId}
 					user={user!}
 					handleNewMessage={onNewMessage}
 				/>
 			</div>
-		</>
+		</section>
 	);
 };

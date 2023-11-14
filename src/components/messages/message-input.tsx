@@ -47,7 +47,7 @@ export const MessageInput: React.FC<Props> = ({
 	};
 
 	return (
-		<div className='flex items-center gap-2 p-2 bg-secondary-lt rounded-lg w-full mb-8 '>
+		<div className='flex items-center gap-2 p-2 bg-secondary-lt rounded-lg w-full'>
 			<input
 				className='pl-4 border-none outline-none w-full bg-transparent text-white caret-blue-500'
 				type='text'
