@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 
 export const chatGroupApi = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+	baseURL: `${process.env.NEXT_PUBLIC_BASE_API_URL}/api`,
 });
 
 chatGroupApi.interceptors.request.use(config => {

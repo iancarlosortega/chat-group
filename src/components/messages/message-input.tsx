@@ -1,23 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { SendMessageIcon } from '../icons/icons';
+import { socket } from '@/api/websockets';
 import { MessagesService } from '@/services';
-import { Message, User } from '@/interfaces';
+import { SendMessageIcon } from '../icons/icons';
+import { useChatStore } from '@/stores';
 
-interface Props {
-	chatId: string;
-	user: User;
-	handleNewMessage: (messsage: Message) => void;
-}
-
-export const MessageInput: React.FC<Props> = ({
-	chatId,
-	user,
-	handleNewMessage,
-}) => {
+export const MessageInput = () => {
 	const [inputValue, setInputValue] = useState('');
+	const currentChat = useChatStore(state => state.currenChat);
 
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === 'Enter') {
@@ -27,19 +18,15 @@ export const MessageInput: React.FC<Props> = ({
 
 	const onNewMessage = async () => {
 		if (inputValue.trim().length === 0) return;
-		const newMessage: Message = {
-			id: uuidv4(),
-			content: inputValue,
-			user,
-			createdAt: new Date() as any,
-			updatedAt: new Date() as any,
-		};
-		handleNewMessage(newMessage); // Optimistic update
+		socket.emit('send_message', {
+			message: inputValue,
+			roomId: currentChat?.id,
+		});
 		setInputValue('');
 		try {
 			await MessagesService.createMessage({
 				content: inputValue,
-				chatId,
+				chatId: currentChat!.id,
 			});
 		} catch (error) {
 			console.log(error);

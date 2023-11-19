@@ -3,7 +3,7 @@ import { User } from '@/interfaces';
 export const getSesssion = async (token: string): Promise<User | null> => {
 	try {
 		const data = await fetch(
-			`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/check-status`,
+			`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/check-status`,
 			{
 				method: 'GET',
 				headers: {

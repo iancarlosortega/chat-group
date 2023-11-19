@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation';
-import { ChatsService, MessagesService } from '@/services';
+import { ChatsService } from '@/services';
+import { ChatClientLayout } from '@/components/chats/chat-client-layout';
 import { ChatHeader } from '@/components/chats/chat-header';
-import { MessagesSection } from '@/components/messages/messages-section';
+import { MessagesList } from '@/components/messages/messages-list';
+import { MessageInput } from '@/components/messages/message-input';
 
 export default async function ChatPage({
 	params: { id },
@@ -12,15 +14,15 @@ export default async function ChatPage({
 
 	if (!chat) redirect('/');
 
-	// TODO: Group messages by day
-	const response = await MessagesService.getMessagesByChatId({
-		chatId: chat.id,
-	});
-
 	return (
-		<>
-			<ChatHeader name={chat.name} />
-			<MessagesSection chatId={chat.id} messages={response.result} />
-		</>
+		<ChatClientLayout chat={chat}>
+			<ChatHeader />
+			<section className='container mx-auto px-4 xl:px-16'>
+				<MessagesList />
+				<div className='h-[100px] flex items-center'>
+					<MessageInput />
+				</div>
+			</section>
+		</ChatClientLayout>
 	);
 }

@@ -1,14 +1,11 @@
 'use client';
 
-import { useUIStore } from '@/stores';
+import { useChatStore, useUIStore } from '@/stores';
 import { MenuIcon } from '../icons/icons';
 
-interface Props {
-	name: string;
-}
-
-export const ChatHeader: React.FC<Props> = ({ name }) => {
+export const ChatHeader = () => {
 	const setIsSidebarOpen = useUIStore(state => state.setIsSidebarOpen);
+	const currentChat = useChatStore(state => state.currenChat);
 
 	return (
 		<header className='shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]'>
@@ -17,7 +14,7 @@ export const ChatHeader: React.FC<Props> = ({ name }) => {
 					<MenuIcon className='w-6 h-6 text-white stroke-2' />
 				</button>
 				<p className='uppercase text-white font-bold text-lg container mx-auto'>
-					{name}
+					{currentChat?.name}
 				</p>
 			</div>
 		</header>

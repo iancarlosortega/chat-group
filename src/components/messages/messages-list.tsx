@@ -1,42 +1,48 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { socket } from '@/api/websockets';
 import { MessagesService } from '@/services';
+import { useAuthStore, useChatStore } from '@/stores';
 import { ProfilePhoto } from '../UI/profile-photo';
 import { InfiniteScroll } from '../UI/infinite-scroll';
 import { formatDate } from '@/utils';
-import { Message, User } from '@/interfaces';
+import { Message } from '@/interfaces';
 
-interface Props {
-	messages: Message[];
-	user: User;
-	chatId: string;
-	newMessagesCounter: number;
-	handleNewMessages: (messages: Message[]) => void;
-}
-
-export const MessagesList: React.FC<Props> = ({
-	messages,
-	user,
-	chatId,
-	newMessagesCounter,
-	handleNewMessages,
-}) => {
-	const [page, setPage] = useState(1);
+export const MessagesList = () => {
+	const [messages, setMessages] = useState<Message[]>([]);
+	const [newMessagesCounter, setNewMessagesCounter] = useState(0);
+	const [page, setPage] = useState(0);
+	const user = useAuthStore(state => state.user);
+	const currentChat = useChatStore(state => state.currenChat);
 	const bottomRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		socket.on('receive_message', (newMessage: Message) => {
+			setNewMessagesCounter(prev => prev + 1);
+			setMessages(prev => [newMessage, ...prev]);
+		});
+
+		socket.connect();
+
+		return () => {
+			socket.off('connect');
+			socket.off('receive_message');
+		};
+	}, []);
 
 	const fetchMoreMessages = async () => {
 		const limit = 10;
-		const response = await MessagesService.getMessagesByChatId({
-			chatId,
+		const { result: messages } = await MessagesService.getMessagesByChatId({
+			chatId: currentChat!.id,
 			limit,
 			offset: page * limit + newMessagesCounter,
 		});
 
-		handleNewMessages(response.result);
+		setMessages(prev => [...prev, ...messages]);
 		setPage(prev => prev + 1);
 
-		return response.result.length > 0;
+		return messages.length > 0;
 	};
 
 	useEffect(() => {
