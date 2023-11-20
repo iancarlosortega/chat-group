@@ -42,7 +42,7 @@ export const InfiniteScroll = ({ fetchData }: Props) => {
 	}, [onIntersection]);
 
 	return (
-		<div ref={observerRef} className='w-full'>
+		<div ref={observerRef} className='w-full h-1'>
 			{isLoading && !isEndOfData && (
 				<div className='w-full flex justify-center'>
 					<LoadingSpinner />

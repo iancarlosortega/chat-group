@@ -43,7 +43,7 @@ export const GuestMessage = ({ message, messages }: Props) => {
 				</div>
 			</div>
 			{!checkPreviousMessage(message, messages) && (
-				<p className='text-xs font-medium text-tertiary-dk pl-14 pt-3'>
+				<p className='text-xs font-medium text-tertiary-dk pl-16 pt-3'>
 					{formatDate(message.createdAt)}
 				</p>
 			)}

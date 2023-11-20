@@ -17,9 +17,10 @@ export const ChatsListItem: React.FC<Props> = ({ chat }) => {
 	const currentChat = useChatStore(state => state.currenChat);
 
 	const handleOpenChat = () => {
+		setIsChatInformationOpen(true);
+		if (currentChat?.id === chat.id) return;
 		socket.emit('leave_room', currentChat?.id);
 		socket.emit('join_room', chat.id);
-		// setIsChatInformationOpen(true);
 	};
 
 	return (

@@ -4,12 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { socket } from '@/api/websockets';
 import { MessagesService } from '@/services';
 import { useAuthStore, useChatStore } from '@/stores';
-import { ProfilePhoto } from '../UI/profile-photo';
 import { InfiniteScroll } from '../UI/infinite-scroll';
-import { formatDate } from '@/utils';
-import { Message } from '@/interfaces';
 import { OwnerMessage } from './owner-message';
 import { GuestMessage } from './guest-message';
+import { Message } from '@/interfaces';
 
 export const MessagesList = () => {
 	const [messages, setMessages] = useState<Message[]>([]);
@@ -52,40 +50,28 @@ export const MessagesList = () => {
 			bottomRef.current.scrollIntoView({ behavior: 'smooth' });
 	}, []);
 
-	const checkNextMessage = (message: Message) => {
-		const index = messages.findIndex(m => m.id === message.id);
-		const nextMessage = messages[index + 1];
-		return message.user.id === nextMessage?.user.id;
-	};
-
-	const checkPreviousMessage = (message: Message) => {
-		const index = messages.findIndex(m => m.id === message.id);
-		const nextMessage = messages[index - 1];
-		return message.user.id === nextMessage?.user.id;
-	};
-
-	const getStyleBorders = () => {};
-
 	return (
 		<div className='h-[calc(100vh-165px)]'>
-			<div className='h-full overflow-y-auto flex flex-col-reverse items-end scroll-container px-4 xl:px-16 relative'>
-				{messages.map(message => (
-					<>
-						{user?.id === message.user.id ? (
+			<div className='h-full overflow-y-auto flex flex-col-reverse items-end scroll-container px-4 pt-2 lg:px-12 xl:px-16 relative'>
+				{messages.map(message => {
+					if (user?.id === message.user.id) {
+						return (
 							<OwnerMessage
 								key={message.id}
 								message={message}
 								messages={messages}
 							/>
-						) : (
+						);
+					} else {
+						return (
 							<GuestMessage
 								key={message.id}
 								message={message}
 								messages={messages}
 							/>
-						)}
-					</>
-				))}
+						);
+					}
+				})}
 				<InfiniteScroll fetchData={fetchMoreMessages} />
 			</div>
 			<div ref={bottomRef}></div>
