@@ -17,9 +17,9 @@ export default async function ChatPage({
 	return (
 		<ChatClientLayout chat={chat}>
 			<ChatHeader />
-			<section className='container mx-auto px-4 xl:px-16'>
+			<section className='container mx-auto'>
 				<MessagesList />
-				<div className='h-[100px] flex items-center'>
+				<div className='h-[100px] flex items-center px-4 xl:px-16'>
 					<MessageInput />
 				</div>
 			</section>
