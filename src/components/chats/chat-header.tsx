@@ -3,7 +3,11 @@
 import { useChatStore, useUIStore } from '@/stores';
 import { MenuIcon } from '../icons/icons';
 
-export const ChatHeader = () => {
+interface Props {
+	chatName?: string;
+}
+
+export const ChatHeader = ({ chatName }: Props) => {
 	const setIsSidebarOpen = useUIStore(state => state.setIsSidebarOpen);
 	const currentChat = useChatStore(state => state.currenChat);
 
@@ -14,7 +18,7 @@ export const ChatHeader = () => {
 					<MenuIcon className='w-6 h-6 text-white stroke-2' />
 				</button>
 				<p className='uppercase text-white font-bold text-lg container mx-auto'>
-					{currentChat?.name ?? 'Chat Group'}
+					{chatName ?? currentChat?.name}
 				</p>
 			</div>
 		</header>

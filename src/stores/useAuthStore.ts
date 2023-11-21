@@ -10,6 +10,7 @@ interface State {
 }
 
 interface Actions {
+	setUser: (user: User) => void;
 	loginUser: (email: string, password: string) => Promise<void>;
 	registerUser: (
 		fullName: string,
@@ -23,6 +24,13 @@ interface Actions {
 const storeApi: StateCreator<State & Actions> = set => ({
 	isAuthenticated: false,
 	user: undefined,
+	setUser: user =>
+		set(state => ({
+			user: {
+				...state.user,
+				...user,
+			},
+		})),
 	loginUser: async (email, password) => {
 		try {
 			const { token, user } = await AuthService.login(email, password);
