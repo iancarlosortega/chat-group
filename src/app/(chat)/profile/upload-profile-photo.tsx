@@ -5,7 +5,10 @@ import Image from 'next/image';
 import { toast } from 'sonner';
 import { FilesService } from '@/services';
 import { useAuthStore } from '@/stores';
-import { LoadingSpinnerIcon, UploadIcon } from '../icons/icons';
+import {
+	LoadingSpinnerIcon,
+	UploadIcon,
+} from '../../../components/icons/icons';
 import { classNames } from '@/utils';
 
 export const UploadProfilePhoto = () => {

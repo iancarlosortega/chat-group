@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body className={`${notoSans.className} ${kanit.variable}`}>
+			<body className={`${notoSans.className} ${kanit.variable} bg-secondary`}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

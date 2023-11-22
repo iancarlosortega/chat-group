@@ -5,6 +5,9 @@ export interface User {
 	roles: string[];
 	isActive: boolean;
 	avatarUrl?: string;
+	age: number;
+	birthDate: string;
+	gender: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
