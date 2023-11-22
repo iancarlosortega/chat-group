@@ -16,7 +16,7 @@ const config: Config = {
 				kanit: ['var(--font-kanit)'],
 			},
 			colors: {
-				primary: '#fd4350',
+				primary: '#3b82f6',
 				'secondary-lt': '#3C393F',
 				secondary: '#252329',
 				'secondary-dk': '#120F13',

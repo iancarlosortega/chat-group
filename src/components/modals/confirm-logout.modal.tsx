@@ -61,7 +61,7 @@ export const ConfirmLogoutModal = () => {
 										Cancel
 									</button>
 									<button
-										className='px-4 py-2 rounded-lg bg-gradient-to-br from-primary/80 to bg-red-800/80 text-white'
+										className='px-4 py-2 rounded-lg bg-gradient-to-br from-primary/80 to bg-blue-800/80 text-white'
 										onClick={confirmLogout}>
 										Confirm
 									</button>
