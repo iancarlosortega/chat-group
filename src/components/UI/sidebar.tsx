@@ -10,6 +10,7 @@ import { ChatsList } from '../chats/chats-list';
 import { Dropdown } from './dropdown';
 import { classNames, useOutsideAlerter } from '@/utils';
 import { Chat } from '@/interfaces';
+import { SearchChatInput } from '../chats/search-chat-input';
 
 interface Props {
 	chats: Chat[];
@@ -66,14 +67,7 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 							</button>
 						</header>
 						<div className='p-4 h-[calc(100vh-165px)] flex flex-col'>
-							<TextInput
-								icon={SearchIcon}
-								type='text'
-								placeholder='Search'
-								className={classNames(
-									'bg-secondary-lt rounded-lg outline-none border-none p-2'
-								)}
-							/>
+							<SearchChatInput />
 							<ChatsList />
 						</div>
 					</div>

@@ -25,7 +25,7 @@ export const ChatsList = () => {
 	};
 
 	return (
-		<ul className='my-2 md:my-6 flex-1 overflow-y-auto scroll-container'>
+		<ul className='my-2 py-2 md:py-4 flex-1 overflow-y-auto scroll-container'>
 			{chats.map(chat => (
 				<ChatsListItem key={chat.id} chat={chat} />
 			))}

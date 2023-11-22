@@ -39,6 +39,31 @@ export class ChatsService {
 		}
 	};
 
+	static getChatsByTerm = async (
+		term: string,
+		limit = 10,
+		offset = 0
+	): Promise<{
+		result: Chat[];
+		totalItems: number;
+	}> => {
+		try {
+			const { data } = await chatGroupApi.get('/chats/search', {
+				params: {
+					term,
+					limit,
+					offset,
+				},
+			});
+			return data;
+		} catch (error) {
+			return {
+				totalItems: 0,
+				result: [],
+			};
+		}
+	};
+
 	static createChat = async (newChat: CreateChat) => {
 		try {
 			const { data } = await chatGroupApi.post('/chats', newChat);

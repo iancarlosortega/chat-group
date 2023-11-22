@@ -198,10 +198,10 @@ export const UploadIcon = ({ className = '' }) => {
 	);
 };
 
-export const LoadingSpinnerIcon = ({ className = '' }) => {
+export const LoadingSpinnerIcon = ({ className = 'w-6 h-6' }) => {
 	return (
 		<svg
-			className={'animate-spin w-6 h-6 fill-slate-300' + className}
+			className={'animate-spin fill-slate-300 stroke-white' + className}
 			viewBox='3 3 18 18'>
 			<path
 				className='opacity-20'

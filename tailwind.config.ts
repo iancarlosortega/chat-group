@@ -64,15 +64,15 @@ const config: Config = {
 					},
 					background: {
 						muted: '#131A2B', // custom
-						subtle: '#1f2937', // gray-800
-						DEFAULT: '#111827', // gray-900
+						subtle: '#27282D',
+						DEFAULT: '#18181A',
 						emphasis: '#d1d5db', // gray-300
 					},
 					border: {
-						DEFAULT: '#1f2937', // gray-800
+						DEFAULT: '#27282D', // gray-800
 					},
 					ring: {
-						DEFAULT: '#1f2937', // gray-800
+						DEFAULT: '#27282D', // gray-800
 					},
 					content: {
 						subtle: '#4b5563', // gray-600
