@@ -12,7 +12,6 @@ interface IFormValues {
 }
 
 export const CreateChatGroupModal = () => {
-	const addChat = useChatStore(state => state.addChat);
 	const incrementNewChatsCounter = useChatStore(
 		state => state.incrementNewChatsCounter
 	);
@@ -34,8 +33,8 @@ export const CreateChatGroupModal = () => {
 			const chat = await ChatsService.createChat(newChat);
 			setIsCreateChatModalOpen(false);
 			reset();
-			addChat(chat);
 			incrementNewChatsCounter(1);
+			router.refresh();
 			router.push(chat.id);
 		} catch (error) {
 			console.log(error);

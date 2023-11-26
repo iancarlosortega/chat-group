@@ -4,32 +4,6 @@ import { chatGroupApi } from '@/api/chatGroupApi';
 import { Chat, CreateChat } from '@/interfaces';
 
 export class ChatsService {
-	static getAllChats = async (
-		limit = 10,
-		offset = 0
-	): Promise<{
-		result: Chat[];
-		totalItems: number;
-	}> => {
-		try {
-			const { data } = await chatGroupApi.get<{
-				result: Chat[];
-				totalItems: number;
-			}>('/chats', {
-				params: {
-					limit,
-					offset,
-				},
-			});
-			return data;
-		} catch (error) {
-			return {
-				totalItems: 0,
-				result: [],
-			};
-		}
-	};
-
 	static getChatById = async (id: string): Promise<Chat | null> => {
 		try {
 			const { data } = await chatGroupApi.get(`/chats/${id}`);

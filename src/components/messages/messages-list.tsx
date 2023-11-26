@@ -16,6 +16,7 @@ export const MessagesList = () => {
 	const user = useAuthStore(state => state.user);
 	const currentChat = useChatStore(state => state.currenChat);
 	const bottomRef = useRef<HTMLDivElement>(null);
+	const messagesContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		socket.on('receive_message', (newMessage: Message) => {
@@ -52,7 +53,9 @@ export const MessagesList = () => {
 
 	return (
 		<div className='h-[calc(100vh-165px)]'>
-			<div className='h-full overflow-y-auto flex flex-col-reverse items-end scroll-container px-4 pt-2 lg:px-12 xl:px-16 relative'>
+			<div
+				ref={messagesContainerRef}
+				className='h-full overflow-y-auto flex flex-col-reverse items-end scroll-container px-4 pt-2 lg:px-12 xl:px-16 relative'>
 				{messages.map(message => {
 					if (user?.id === message.user.id) {
 						return (
@@ -72,7 +75,11 @@ export const MessagesList = () => {
 						);
 					}
 				})}
-				<InfiniteScroll fetchData={fetchMoreMessages} />
+				<InfiniteScroll
+					root={messagesContainerRef.current as HTMLElement}
+					rootMargin='200px'
+					fetchData={fetchMoreMessages}
+				/>
 			</div>
 			<div ref={bottomRef}></div>
 		</div>

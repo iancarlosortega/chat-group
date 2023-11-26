@@ -24,7 +24,7 @@ export const ChatsListItem: React.FC<Props> = ({ chat }) => {
 	};
 
 	return (
-		<li className='my-4 flex items-center gap-4'>
+		<li className='mb-4 flex items-center gap-4'>
 			<InitialsName name={chat.name} />
 			<Link
 				href={chat.id}

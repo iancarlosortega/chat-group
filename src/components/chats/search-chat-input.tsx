@@ -1,45 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 import { TextInput } from '@tremor/react';
 import { LoadingSpinnerIcon, SearchIcon } from '../icons/icons';
 import { classNames } from '@/utils';
-import { ChatsService } from '@/services';
-import { useChatStore } from '@/stores';
 
 export const SearchChatInput = () => {
-	const [isFirstRenderer, setIsFirstRenderer] = useState(true);
-	const [inputValue, setInputValue] = useState('');
-	const [isUpdatingChats, setIsUpdatingChats] = useState(false);
-	const setChats = useChatStore(state => state.setChats);
+	const [isUpdatingSearch, setisUpdatingSearch] = useState(false);
+	const searchParams = useSearchParams();
+	const pathName = usePathname();
+	const { replace } = useRouter();
 
-	useEffect(() => {
-		if (isFirstRenderer) return;
-		// Set a timer to update the debounced value after a specified delay
-		const debounceTimer = setTimeout(async () => {
-			const data = await ChatsService.getChatsByTerm(inputValue);
-			setChats(data.result);
-			setIsUpdatingChats(false);
-		}, 1200);
+	const handleSearch = useDebouncedCallback((term: string) => {
+		const params = new URLSearchParams(searchParams);
+		if (term) {
+			params.set('query', term);
+		} else {
+			params.delete('query');
+		}
+		replace(`${pathName}?${params.toString()}`);
+		setisUpdatingSearch(false);
+	}, 500);
 
-		// Clear the timer if the value changes before the delay time
-		return () => {
-			clearTimeout(debounceTimer);
-		};
-	}, [inputValue, isFirstRenderer, setChats]);
-
-	const handleInputChange = (e: any) => {
-		setIsUpdatingChats(true);
-		setIsFirstRenderer(false);
-		setInputValue(e.target.value);
+	const handleChangeInput = (term: string) => {
+		setisUpdatingSearch(true);
+		handleSearch(term);
 	};
 
 	return (
 		<TextInput
-			icon={isUpdatingChats ? LoadingSpinnerIcon : SearchIcon}
+			icon={isUpdatingSearch ? LoadingSpinnerIcon : SearchIcon}
 			type='text'
 			placeholder='Search'
-			onChange={handleInputChange}
+			onChange={e => handleChangeInput(e.target.value)}
+			defaultValue={searchParams.get('query')?.toString()}
 			className={classNames(
 				'bg-secondary-lt rounded-lg outline-none border-none p-2'
 			)}

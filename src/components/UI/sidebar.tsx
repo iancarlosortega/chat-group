@@ -1,41 +1,22 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TextInput } from '@tremor/react';
-import { useAuthStore, useChatStore, useUIStore } from '@/stores';
-import { PlusIcon, SearchIcon } from '../icons/icons';
+import { useAuthStore, useUIStore } from '@/stores';
+import { PlusIcon } from '../icons/icons';
 import { ProfilePhoto } from './profile-photo';
+import { SearchChatInput } from '../chats/search-chat-input';
 import { ChatsList } from '../chats/chats-list';
 import { Dropdown } from './dropdown';
-import { classNames, useOutsideAlerter } from '@/utils';
-import { Chat } from '@/interfaces';
-import { SearchChatInput } from '../chats/search-chat-input';
+import { useOutsideAlerter } from '@/utils';
 
-interface Props {
-	chats: Chat[];
-}
-
-export const Sidebar: React.FC<Props> = ({ chats }) => {
+export const Sidebar = () => {
 	const user = useAuthStore(state => state.user);
-	const setChats = useChatStore(state => state.setChats);
 	const setIsCreateChatModalOpen = useUIStore(
 		state => state.setIsCreateChatModalOpen
 	);
 	const isSidebarOpen = useUIStore(state => state.isSidebarOpen);
 	const setIsSidebarOpen = useUIStore(state => state.setIsSidebarOpen);
-
-	const closeSidebar = () => {
-		if (window.innerWidth > 1024) return;
-		setIsSidebarOpen(false);
-	};
-
-	const wrapperRef = useRef(null);
-	useOutsideAlerter(wrapperRef, closeSidebar);
-
-	useEffect(() => {
-		setChats(chats);
-	}, [chats, setChats]);
 
 	useLayoutEffect(() => {
 		function updateSize() {
@@ -46,6 +27,14 @@ export const Sidebar: React.FC<Props> = ({ chats }) => {
 		updateSize();
 		return () => window.removeEventListener('resize', updateSize);
 	}, [setIsSidebarOpen]);
+
+	const closeSidebar = () => {
+		if (window.innerWidth > 1024) return;
+		setIsSidebarOpen(false);
+	};
+
+	const wrapperRef = useRef(null);
+	useOutsideAlerter(wrapperRef, closeSidebar);
 
 	return (
 		<AnimatePresence>
