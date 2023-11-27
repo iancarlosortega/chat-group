@@ -22,7 +22,7 @@ export const LoginForm = () => {
 	const onSubmit = async ({ email, password }: IFormValues) => {
 		try {
 			await loginUser(email, password);
-			router.push('/');
+			router.refresh();
 		} catch (error) {
 			console.log(error);
 		}

@@ -23,7 +23,7 @@ export const RegisterForm = () => {
 	const onSubmit = async ({ name, email, password }: IFormValues) => {
 		try {
 			await registerUser(name, email, password);
-			router.push('/');
+			router.refresh();
 		} catch (error) {
 			console.log(error);
 		}
