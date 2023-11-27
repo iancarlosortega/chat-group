@@ -32,6 +32,7 @@ export const ChatsList = () => {
 	};
 
 	useEffect(() => {
+		console.log('LoadChats');
 		setIsLoading(true);
 		const loadChats = async () => {
 			const { result } = await ChatsService.getChatsByTerm(searchTerm);

@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Thrullo
 
-## Getting Started
+## Description
 
-First, run the development server:
+Web application designed to revolutionize your communication experience with real-time messaging. Whether you're collaborating with team members or connecting with friends.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- TypeScript
+- Next.Js 13
+- TailwindCSS
+- Zustand
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## User stories
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- I can sign up and login with email and password
+- I can login with social media accounts
+- I can create multiple chats
+- I can join to any chat
+- I can send messages to all the members online in the chat
+- I can see other people's messages in realtime
+- Infinite Scroll for messages and chats
+- I can search for groups
+- I can upload my profile
+- I can see the app in different screen sizes
 
-## Learn More
+## Development environment setup
 
-To learn more about Next.js, take a look at the following resources:
+- Raise the backend following the steps from [Chat Group API](https://github.com/iancarlosortega/chat-group-api)
+- Clone the repository `git clone https://github.com/iancarlosortega/chat-group.git`
+- Install dependencies by running `npm install`
+- Copy `.env.template` and rename to `.env.local` file and add the environment variables
+- Run `npm run dev` to start the development server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## User to test app
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Visit [Chat Group](https://chat-group-phi.vercel.app/) to use the app
+- Use the following credentials to login
+  - Email: **test@gmail.com**
+  - Password: **$Asdf123**
 
-## Deploy on Vercel
+## Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<img src="./screenshots/login.png" alt="Login Page">
+<img src="./screenshots/register.png" alt="Register Page">
+<img src="./screenshots/home.png" alt="Forgot Password Page">
+<img src="./screenshots/messages.png" alt="Update Password Page">
+<img src="./screenshots/profile.png" alt="Home Page">
+<img src="./screenshots/phone.png" alt="Home (Phone)" width="400">
+<img src="./screenshots/tablet.png" alt="Home (Tablet)" width="650">

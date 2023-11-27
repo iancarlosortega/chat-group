@@ -8,6 +8,7 @@ export const Dropdown = () => {
 	const setIsConfirmLogoutModalOpen = useUIStore(
 		state => state.setIsConfirmLogoutModalOpen
 	);
+	const setIsSidebarOpen = useUIStore(state => state.setIsSidebarOpen);
 
 	return (
 		<Menu as='div' className='relative inline-block text-left'>
@@ -31,6 +32,7 @@ export const Dropdown = () => {
 					<Menu.Item>
 						<Link
 							href='/profile'
+							onClick={() => setIsSidebarOpen(false)}
 							className='text-[#E0E0E0] hover:bg-secondary-lt transition-colors ease-in rounded-md flex items-center gap-4 p-3 my-2'>
 							<ProfileIcon />
 							My Profile
@@ -38,7 +40,10 @@ export const Dropdown = () => {
 					</Menu.Item>
 					<Menu.Item>
 						<button
-							onClick={() => setIsConfirmLogoutModalOpen(true)}
+							onClick={() => {
+								setIsSidebarOpen(false);
+								setIsConfirmLogoutModalOpen(true);
+							}}
 							className='text-red-500 hover:text-red-700 hover:bg-secondary-lt w-full rounded-md transition-colors flex items-center gap-4 p-3'>
 							<LogoutIcon />
 							Logout

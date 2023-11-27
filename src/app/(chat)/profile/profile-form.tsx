@@ -68,7 +68,7 @@ export const ProfileForm = () => {
 			const value = data[key as keyof UserProfile];
 			dirtyValues = {
 				...dirtyValues,
-				[key]: isNaN(value as number) ? value : Number(value),
+				[key]: value == '' || isNaN(value as number) ? value : Number(value),
 			};
 		});
 		return dirtyValues;

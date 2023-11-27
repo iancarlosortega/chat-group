@@ -1,2 +1,2 @@
-export { Providers } from './providers';
+export { Providers } from './Providers';
 export { SessionProvider } from './session-provider';

@@ -1,7 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useAuthStore, useUIStore } from '@/stores';
 import { PlusIcon } from '../icons/icons';
 import { ProfilePhoto } from './profile-photo';
@@ -11,6 +10,7 @@ import { Dropdown } from './dropdown';
 import { useOutsideAlerter } from '@/utils';
 
 export const Sidebar = () => {
+	const [width, setWidth] = useState(0);
 	const user = useAuthStore(state => state.user);
 	const setIsCreateChatModalOpen = useUIStore(
 		state => state.setIsCreateChatModalOpen
@@ -20,16 +20,15 @@ export const Sidebar = () => {
 
 	useLayoutEffect(() => {
 		function updateSize() {
-			if (window.innerWidth < 1024) return setIsSidebarOpen(false);
-			setIsSidebarOpen(true);
+			setWidth(window.innerWidth);
 		}
 		window.addEventListener('resize', updateSize);
 		updateSize();
 		return () => window.removeEventListener('resize', updateSize);
-	}, [setIsSidebarOpen]);
+	}, []);
 
 	const closeSidebar = () => {
-		if (window.innerWidth > 1024) return;
+		if (width > 1024) return;
 		setIsSidebarOpen(false);
 	};
 
@@ -37,38 +36,32 @@ export const Sidebar = () => {
 	useOutsideAlerter(wrapperRef, closeSidebar);
 
 	return (
-		<AnimatePresence>
-			{isSidebarOpen && (
-				<motion.aside
-					ref={wrapperRef}
-					initial={{ x: '-100%' }}
-					animate={{ x: 0 }}
-					exit={{ x: '-100%' }}
-					transition={{ duration: window.innerWidth > 1024 ? 0 : 0.3 }}
-					className='min-h-screen w-[400px] max-w-[80%] bg-secondary-dk flex flex-col justify-between absolute lg:relative left-0 top-0 z-10'>
-					<div className='flex-1 text-white'>
-						<header className='shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] p-4 flex items-center justify-between h-[65px]'>
-							<p className='font-bold text-lg'>Channels</p>
-							<button
-								className='bg-secondary p-2 rounded-lg'
-								onClick={() => setIsCreateChatModalOpen(true)}>
-								<PlusIcon className='stroke-2' />
-							</button>
-						</header>
-						<div className='p-4 h-[calc(100vh-165px)] flex flex-col'>
-							<SearchChatInput />
-							<ChatsList />
-						</div>
-					</div>
-					<footer className='bg-secondary-dks flex items-center justify-between h-[100px] p-4'>
-						<div className='flex items-center gap-3'>
-							{user && <ProfilePhoto user={user} />}
-							<p className='font-bold text-tertiary-dk'>{user?.fullName}</p>
-						</div>
-						<Dropdown />
-					</footer>
-				</motion.aside>
-			)}
-		</AnimatePresence>
+		<aside
+			ref={wrapperRef}
+			className={`min-h-screen w-[400px] max-w-[80%] bg-secondary-dk flex flex-col justify-between absolute lg:relative left-0 top-0 z-30 transition-transform ease duration-300 ${
+				isSidebarOpen || width > 1024 ? 'translate-x-0' : 'translate-x-[-100%]'
+			}`}>
+			<div className='flex-1 text-white'>
+				<header className='shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] p-4 flex items-center justify-between h-[65px]'>
+					<p className='font-bold text-lg'>Channels</p>
+					<button
+						className='bg-secondary p-2 rounded-lg'
+						onClick={() => setIsCreateChatModalOpen(true)}>
+						<PlusIcon className='stroke-2' />
+					</button>
+				</header>
+				<div className='p-4 h-[calc(100vh-165px)] flex flex-col'>
+					<SearchChatInput />
+					<ChatsList />
+				</div>
+			</div>
+			<footer className='bg-secondary-dks flex items-center justify-between h-[100px] p-4'>
+				<div className='flex items-center gap-3'>
+					{user && <ProfilePhoto user={user} />}
+					<p className='font-bold text-tertiary-dk'>{user?.fullName}</p>
+				</div>
+				<Dropdown />
+			</footer>
+		</aside>
 	);
 };
